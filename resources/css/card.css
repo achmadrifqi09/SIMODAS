@@ -1,0 +1,16 @@
+.navigation-card {
+    background-color: var(--second-color);
+    border-radius: 8px;
+    padding: 16px;
+}
+
+.navigation-card-body {
+    margin-top: 16px;
+    display: flex;
+    gap: 24px;
+}
+
+.card-title {
+    font-size: 13pt;
+    font-weight: 400;
+}

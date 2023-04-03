@@ -1,0 +1,38 @@
+.modal-container {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+    overflow: hidden;
+}
+
+.modal {
+    background-color: var(--second-color);
+    padding: 24px;
+    border-radius: 8px;
+    width: 60%;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid #2D2D2D;
+}
+.close-button {
+    background-color: transparent;
+    border: none;
+}
+
+.modal-title {
+    font-weight: 500;
+}

@@ -1,0 +1,58 @@
+.button-primary {
+    padding: 8px;
+    display: flex;
+    background-color: var(--accent-color);
+    border: none;
+    border-radius: 8px;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.button-primary-lg {
+    padding: 8px 32px;
+    display: flex;
+    background-color: var(--accent-color);
+    border: none;
+    border-radius: 8px;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    margin-left: auto;
+}
+
+.button-icon {
+    width: 20px;
+}
+
+.button-group {
+    display: flex;
+    border: 1px solid var(--outline-input-color);
+    border-radius: 8px;
+}
+
+.button-group-item {
+    background-color: var(--second-color);
+    border: none;
+    width: 100%;
+    padding: 8px;
+}
+.button-group-no-rounded {
+    boder-radius: 0px;
+}
+
+.button-group-rounded-left {
+    border-radius: 8px 0px 0px 8px;
+}
+
+.button-group-rounded-right {
+    border-radius: 0px 8px 8px 0px;
+}
+
+.active-button-group {
+    background-color: var(--accent-color) !important;
+}
+
+.button-group-item:hover {
+    cursor: pointer;
+}
