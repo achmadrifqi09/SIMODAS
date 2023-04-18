@@ -1,6 +1,6 @@
 import ButtonGroup from "./ButtonGroup";
 import LinkWithIcon from "./LinkWithIcon";
-import ButtonSubmit from "./ButtonSubmit";
+import ButtonCommon from "./ButtonCommon";
 import ButtonWithIcon from "./ButtonWithIcon";
 
-export { ButtonGroup, LinkWithIcon, ButtonSubmit, ButtonWithIcon };
+export { ButtonGroup, LinkWithIcon, ButtonCommon, ButtonWithIcon };

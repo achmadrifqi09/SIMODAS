@@ -1,7 +1,7 @@
 import React from "react";
 import "../../../css/input.css";
 
-const DropdownInputWithLabel = (props) => {
+const SelectWithLabel = (props) => {
     const { datas, label, name, onChange } = props;
     const handleChange = (event) => {
         onChange(event);
@@ -31,4 +31,4 @@ const DropdownInputWithLabel = (props) => {
     );
 };
 
-export default DropdownInputWithLabel;
+export default SelectWithLabel;

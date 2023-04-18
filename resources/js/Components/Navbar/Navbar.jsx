@@ -43,7 +43,7 @@ const Navbar = () => {
             <div className="nav-brand">
                 <img src={Logo} alt="Logo Pemkab" className="logo" />
                 <div className="app-name">
-                    <span className="title">DISKOMINFO</span>
+                    <h4 className="title">DISKOMINFO</h4>
                     <span className="second-text">Kabupaten Malang</span>
                 </div>
             </div>
@@ -68,10 +68,10 @@ const Navbar = () => {
                         </a>
                     </li>
                     <li className="nav-item">
-                        <a href="/user-list" className="nav-link">
+                        <Link href="/employees" className="nav-link">
                             <UserGroupIcon className="icon" />
                             Daftar Pengguna
-                        </a>
+                        </Link>
                     </li>
                 </ul>
                 <div className="loggedin-user">

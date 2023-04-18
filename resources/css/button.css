@@ -9,6 +9,40 @@
     cursor: pointer;
 }
 
+.button-warning {
+    padding: 8px;
+    display: flex;
+    background-color: var(--warning-color);
+    border: none;
+    border-radius: 8px;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.button-danger {
+    padding: 8px;
+    display: flex;
+    background-color: var(--danger-color);
+    border: none;
+    border-radius: 8px;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.button-danger-lg {
+    padding: 8px;
+    display: flex;
+    background-color: var(--danger-color);
+    border: none;
+    border-radius: 8px;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    margin-left: auto;
+}
+
 .button-primary-lg {
     padding: 8px 32px;
     display: flex;
@@ -21,6 +55,11 @@
     margin-left: auto;
 }
 
+.button-primary-lg[disabled] {
+    opacity: 0.8;
+    cursor: default;
+}
+
 .button-icon {
     width: 20px;
 }
@@ -28,7 +67,26 @@
 .button-group {
     display: flex;
     border: 1px solid var(--outline-input-color);
-    border-radius: 8px;
+    border-radius: 4px;
+    margin: 14px 0px;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip:hover::after {
+    background-color: var(--main-color);
+    content: attr(data-tooltip);
+    padding: 10px;
+    white-space: nowrap;
+    margin-bottom: 11px;
+    position: absolute;
+    z-index: 1;
+    margin-bottom: 10px;
+    left: 110%;
+    border-radius: 4px;
 }
 
 .button-group-item {
@@ -38,15 +96,18 @@
     padding: 8px;
 }
 .button-group-no-rounded {
-    boder-radius: 0px;
+    border-radius: 0px;
+    border-right: 1px solid var(--outline-input-color);
 }
 
 .button-group-rounded-left {
-    border-radius: 8px 0px 0px 8px;
+    border-radius: 4px 0px 0px 4px;
+    border-right: 1px solid var(--outline-input-color);
 }
 
 .button-group-rounded-right {
-    border-radius: 0px 8px 8px 0px;
+    border-radius: 0px 4px 4px 0px;
+    border-left: 1px solid var(--outline-input-color);
 }
 
 .active-button-group {

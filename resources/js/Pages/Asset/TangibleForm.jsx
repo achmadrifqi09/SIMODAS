@@ -1,40 +1,85 @@
 import React, { useEffect, useState } from "react";
-import { ButtonSubmit } from "../../Components/Button/index";
+import { ButtonCommon } from "../../Components/Button/index";
 import {
     InputWithLabel,
-    DropdownInputWithLabel,
+    SelectWithLabel,
+    TextareaWithLabel,
+    InputFile,
 } from "../../Components/Input/index";
 import { Column, WrapperItemsColumn } from "../../Layouts/index";
 import { Inertia } from "@inertiajs/inertia";
+import Spinner from "../../Components/Spinner/Spinner";
+import {
+    validatorInput,
+    checkAllInputIsCorrect,
+} from "../../Utils/ValidatorInput";
+import Toast from "../../Components/Toast/Toast";
+// kurang pengguna
 
-
-const TangibleForm = () => {
-    const [formData, setFormData] = useState({});
-    const howToEarn = [{ value: "Hibah" }, { value: "Pembelian" }];
+const TangibleForm = (props) => {
+    const { mode, datas, res } = props;
+    const [formData, setFormData] = useState(mode === "edit" ? datas : {});
+    const howToEarn = [{ value: "Pembelian" }, { value: "Hibah" }];
     const itemCondition = [{ value: "Baik" }, { value: "Rusak Berat" }];
+    const [isLoading, setIsLoading] = useState(false);
+    const [inputErrors, setInputErrors] = useState({
+        item_code: mode === "edit" ? false : true,
+        item_name: mode === "edit" ? false : true,
+        item_year: mode === "edit" ? false : true,
+        price: mode === "edit" ? false : true,
+    });
+    const [isSubmit, setIsSubmit] = useState(false);
+    const [isSuccess, setIsSuccess] = useState(false);
 
     const handleSubmit = () => {
-        Inertia.post("/asset", formData);
+        mode === "create"
+            ? Inertia.post("/asset", formData)
+            : mode === "edit" &&
+              Inertia.post(`/asset/${datas.id}/update`, formData);
+        setIsLoading(true);
     };
 
     const handleChange = (event) => {
-        const { name, value } = event.target;
-
+        const { name, value, type } = event.target;
+        const correctnessResult = validatorInput(inputErrors, event.target);
+        Object.keys(correctnessResult).forEach((key) => {
+            setInputErrors({
+                ...inputErrors,
+                [key]: correctnessResult[key],
+            });
+        });
         setFormData({
             ...formData,
-            [name]: value,
+            [name]: type === "file" ? event.target.files[0] : value,
         });
     };
 
     useEffect(() => {
+        if (Object.keys(res.errors).length !== 0) {
+            setIsLoading(false);
+        } else if (
+            String(res?.flash.message).toLowerCase().includes("berhasil")
+        ) {
+            setIsLoading(false);
+            setIsSuccess(true);
+        }
         setFormData({
             ...formData,
             item_category: "Berwujud",
+            how_to_earn: "Pembelian",
+            item_condition: "Baik",
+            total: 1,
         });
-    }, []);
+        const isErrorsInput = checkAllInputIsCorrect(inputErrors);
+        !isErrorsInput ? setIsSubmit(true) : setIsSubmit(false);
+    }, [res, inputErrors]);
 
     return (
         <>
+            {isLoading && <Spinner />}
+            {isSuccess && (
+                <Toast urlRedirect="/asset" message={res.flash.message} />
+            )}
             <form>
                 <Column>
                     <WrapperItemsColumn>
@@ -44,6 +89,8 @@ const TangibleForm = () => {
                             placeholder="Kode barang / aset"
                             label="Kode Barang"
                             onChange={handleChange}
+                            value={formData?.item_code || ""}
+                            isCorrect={inputErrors.item_code}
                         />
 
                         <InputWithLabel
@@ -52,16 +99,18 @@ const TangibleForm = () => {
                             placeholder="Nama aset / nama barang"
                             label="Nama Barang"
                             onChange={handleChange}
+                            value={formData?.item_name || ""}
+                            isCorrect={inputErrors.item_name}
                         />
-
                         <InputWithLabel
                             type="text"
                             name="certification_number"
                             placeholder="Nomor sertifikat/nomor pabrik/casis/mesin"
                             label="Nomor Sertifikat"
                             onChange={handleChange}
+                            value={formData?.certification_number || ""}
                         />
-                        <DropdownInputWithLabel
+                        <SelectWithLabel
                             datas={howToEarn}
                             label="Cara Perolehan"
                             name="how_to_earn"
@@ -73,6 +122,15 @@ const TangibleForm = () => {
                             placeholder="Ukuran barang"
                             label="Ukuran"
                             onChange={handleChange}
+                            value={formData?.item_size || ""}
+                        />
+                        <InputWithLabel
+                            type="text"
+                            name="spesification"
+                            placeholder="Spesifikasi barang"
+                            label="Spesifikasi"
+                            onChange={handleChange}
+                            value={formData?.spesification || ""}
                         />
                         <InputWithLabel
                             type="number"
@@ -80,13 +138,16 @@ const TangibleForm = () => {
                             placeholder="Jumlah satuan barang"
                             label="Satuan"
                             onChange={handleChange}
+                            value={formData?.unit || ""}
                         />
                         <InputWithLabel
                             type="number"
                             name="total"
                             placeholder="Jumlah keseluruhan barang"
                             label="Jumlah"
+                            disabled={true}
                             onChange={handleChange}
+                            value={formData?.total || ""}
                         />
                     </WrapperItemsColumn>
                     <WrapperItemsColumn>
@@ -96,14 +157,15 @@ const TangibleForm = () => {
                             placeholder="Nomor registrasi barang"
                             label="Registrasi"
                             onChange={handleChange}
+                            value={formData?.registration || ""}
                         />
-
                         <InputWithLabel
                             type="text"
                             name="brand"
                             placeholder="Merk / tipe barang"
-                            label="Registrasi"
+                            label="Merk"
                             onChange={handleChange}
+                            value={formData?.brand || ""}
                         />
                         <InputWithLabel
                             type="text"
@@ -111,6 +173,7 @@ const TangibleForm = () => {
                             placeholder="Material barang"
                             label="Bahan"
                             onChange={handleChange}
+                            value={formData?.ingredient || ""}
                         />
                         <InputWithLabel
                             type="number"
@@ -118,8 +181,10 @@ const TangibleForm = () => {
                             placeholder="Tahun pembelian barang"
                             label="Tahun"
                             onChange={handleChange}
+                            value={formData?.item_year || ""}
+                            isCorrect={inputErrors.item_year}
                         />
-                        <DropdownInputWithLabel
+                        <SelectWithLabel
                             datas={itemCondition}
                             name="item_condition"
                             label="Kondisi Barang"
@@ -131,6 +196,8 @@ const TangibleForm = () => {
                             placeholder="Harga barang saat diperoleh"
                             label="Harga"
                             onChange={handleChange}
+                            value={formData?.price || ""}
+                            isCorrect={inputErrors.price}
                         />
                         <InputWithLabel
                             type="text"
@@ -138,10 +205,43 @@ const TangibleForm = () => {
                             placeholder="Lokasi keberadaan barang"
                             label="Lokasi"
                             onChange={handleChange}
+                            value={formData?.location || ""}
                         />
                     </WrapperItemsColumn>
                 </Column>
-                <ButtonSubmit action={handleSubmit} label="Simpan" />
+                <InputFile
+                    name="physical_evidence"
+                    accept="image/png, image/jpeg"
+                    label="Pilih Gambar"
+                    previewType="image"
+                    onChange={handleChange}
+                    value={formData?.physical_evidence || ""}
+                    acceptFile="gambar bertipe PNG dan JPEG"
+                />
+                <InputFile
+                    name="file_bast"
+                    accept="application/pdf"
+                    label="Pilih Dokumen"
+                    previewType="pdf"
+                    onChange={handleChange}
+                    value={formData?.file_bast || ""}
+                    acceptFile="dokumen bertipe PDF"
+                />
+                <TextareaWithLabel
+                    label="Deskripsi"
+                    placeholder="Deskripsi barang"
+                    name="description"
+                    onChange={handleChange}
+                >
+                    {formData?.description || ""}
+                </TextareaWithLabel>
+                <ButtonCommon
+                    action={handleSubmit}
+                    buttonVariant="button-primary-lg"
+                    disabled={!isSubmit}
+                >
+                    Submit
+                </ButtonCommon>
             </form>
         </>
     );

@@ -46,11 +46,6 @@
     width: 48px;
 }
 
-.nav-item {
-    /* background-color: var(--accent-color); */
-
-    /* box-shadow: 0px 2px 5px 3px #100d37, 0px -1px 1px 1px #ffffff; */
-}
 
 .nav-link {
     display: flex;

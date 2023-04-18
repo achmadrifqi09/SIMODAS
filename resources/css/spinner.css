@@ -1,0 +1,59 @@
+.wave-container {
+    background-color: var(--main-color-half-opacity);
+    position: absolute;
+    display: flex;
+    align-items: center;
+    flex-decoration: column;
+    justify-content: center;
+    z-index: 1;
+    top: 0px;
+    right: 0px;
+    left: 0px;
+    width: 100vw;
+    height: 100vh;
+}
+
+.spinner-caption{
+    margin-top: 64px;
+    color: #fff;
+    font-size: 12pt;
+}
+
+.wave {
+    width: 100px;
+    height: 100px;
+
+    border-radius: 50%;
+    background-color: var(--accent-color);
+    animation: wave 2s ease-in-out infinite;
+    position: absolute;
+    transform: translateY(-50%);
+    opacity: 0;
+}
+
+.wave:nth-child(1) {
+    animation-delay: 0.2s;
+}
+
+.wave:nth-child(2) {
+    animation-delay: 0.4s;
+}
+
+.wave:nth-child(3) {
+    animation-delay: 0.6s;
+}
+
+@keyframes wave {
+    0% {
+        transform: translateY(-50%) scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: translateY(-50%) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-50%) scale(0);
+        opacity: 0;
+    }
+}

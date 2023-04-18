@@ -1,4 +1,6 @@
-import DropdownInputWithLabel from "./DropdownInputWithLabel";
+import SelectWithLabel from "./SelectWithLabel";
 import InputWithLabel from "./InputWithLabel";
+import InputFile from "./InputFile";
+import TextareaWithLabel from "./TextareaWithLabel";
 
-export { DropdownInputWithLabel, InputWithLabel };
+export { SelectWithLabel, InputWithLabel, InputFile, TextareaWithLabel };

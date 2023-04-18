@@ -10,7 +10,7 @@
     left: 0;
     right: 0;
     background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1;
+    z-index: 99;
     overflow: hidden;
 }
 
@@ -26,11 +26,15 @@
     justify-content: space-between;
     padding-bottom: 16px;
     margin-bottom: 16px;
-    border-bottom: 1px solid #2D2D2D;
+    border-bottom: 1px solid #2d2d2d;
 }
 .close-button {
     background-color: transparent;
     border: none;
+}
+
+.close-button:hover {
+    cursor: pointer;
 }
 
 .modal-title {

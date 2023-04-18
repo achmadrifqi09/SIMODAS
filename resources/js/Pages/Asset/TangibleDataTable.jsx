@@ -1,53 +1,75 @@
 import React from "react";
 import "../../../css/table.css";
-import { IconButton } from "@mui/material";
-import {
-    InformationCircleIcon,
-    PencilSquareIcon,
-    TrashIcon,
-} from "@heroicons/react/24/outline";
+import { MenuItem } from "@mui/material";
 import Table from "../../Components/Table/table";
+import { Inertia } from "@inertiajs/inertia";
 
 const TangibleDataTable = (props) => {
     const { datas } = props;
     const columns = [
         { accessorKey: "item_name", header: "Nama" },
-        { accessorKey: "price", header: "Harga" },
-        { accessorKey: "how_to_earn", header: "Cara Perolehan" },
+        { accessorKey: "brand", header: "Merk" },
+        {
+            accessorKey: "price",
+            header: "Harga",
+            Cell: ({ cell }) => `Rp. ${cell.getValue()}`,
+        },
+        { accessorKey: "item_year", header: "Tahun" },
     ];
 
     return (
-        <div className="">
-            <Table datas={datas} columns={columns}>
-                <IconButton
-                    color="primary"
+        <Table
+            datas={datas}
+            columns={columns}
+            action={({ row }) => [
+                <MenuItem
+                    key="detail"
+                    sx={{ fontSize: "10pt" }}
                     onClick={() =>
-                        window.open(
-                            `mailto:kevinvandy@mailinator.com?subject=Hello ${row.original.firstName}!`
-                        )
+                        Inertia.visit(`/asset/${row.original.id}/detail`)
                     }
                 >
-                    <InformationCircleIcon className="icon" />
-                </IconButton>
-                <IconButton
-                    color="secondary"
-                    onClick={() => {
-                        table.setEditingRow(row);
-                    }}
+                    Detail Barang
+                </MenuItem>,
+                <MenuItem
+                    key="edit"
+                    sx={{ fontSize: "10pt" }}
+                    onClick={() =>
+                        Inertia.visit(`/asset/${row.original.id}/form`)
+                    }
                 >
-                    <PencilSquareIcon className="icon" />
-                </IconButton>
-                <IconButton
-                    color="error"
-                    onClick={() => {
-                        data.splice(row.index, 1); //assuming simple data table
-                        setData([...data]);
-                    }}
+                    Edit Barang
+                </MenuItem>,
+                <MenuItem
+                    key="delete"
+                    onClick={() => console.info("Delete")}
+                    sx={{ fontSize: "10pt" }}
                 >
-                    <TrashIcon className="icon" />
-                </IconButton>
-            </Table>
-        </div>
+                    Hapus Barang
+                </MenuItem>,
+                <MenuItem
+                    key="basV1"
+                    sx={{ fontSize: "10pt" }}
+                    onClick={() => console.info("Edit")}
+                >
+                    BAST V1
+                </MenuItem>,
+                <MenuItem
+                    key="bastV2"
+                    sx={{ fontSize: "10pt" }}
+                    onClick={() => console.info("Edit")}
+                >
+                    BAST V2
+                </MenuItem>,
+                <MenuItem
+                    key="label"
+                    sx={{ fontSize: "10pt" }}
+                    onClick={() => console.info("Edit")}
+                >
+                    Label
+                </MenuItem>,
+            ]}
+        ></Table>
     );
 };
 

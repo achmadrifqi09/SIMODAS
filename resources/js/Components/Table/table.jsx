@@ -1,9 +1,9 @@
 import React from "react";
 import { createTheme, ThemeProvider } from "@mui/material";
-import { Box, IconButton } from "@mui/material";
+import { MenuItem } from "@mui/material";
 import MaterialReactTable from "material-react-table";
 
-const Table = ({ datas, columns, children }) => {
+const Table = ({ datas, columns, action }) => {
     const darkTheme = createTheme({
         palette: {
             mode: "dark",
@@ -15,18 +15,19 @@ const Table = ({ datas, columns, children }) => {
                 columns={columns}
                 data={datas}
                 enableClickToCopy={true}
-                enableFullScreenToggle={false}
                 onHoveredColumnChange={false}
                 enableColumnActions={false}
                 rowNumberMode="static"
                 muiTopToolbarProps={{
                     sx: {
                         backgroundColor: "#202020",
+                        zIndex: 0,
                     },
                 }}
                 muiBottomToolbarProps={{
                     sx: {
                         backgroundColor: "#202020",
+                        zIndex: 0,
                     },
                 }}
                 muiTableHeadCellProps={{
@@ -40,18 +41,9 @@ const Table = ({ datas, columns, children }) => {
                     elevation: 0,
                 }}
                 enableRowActions
-                renderRowActions={({ row, table }) => (
-                    <Box
-                        sx={{
-                            display: "flex",
-                            flexWrap: "nowrap",
-                            gap: "8px",
-                        }}
-                    >
-                        {children}
-                       
-                    </Box>
-                )}
+                renderRowActionMenuItems={
+                    action
+                }
             />
         </ThemeProvider>
     );

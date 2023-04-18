@@ -3,7 +3,7 @@ import "../../../css/button.css";
 
 const ButtonGroup = ({ buttons, action }) => {
     useEffect(() => {
-        setActiveButton(buttons[0]);
+        setActiveButton(buttons[0].value);
     }, []);
 
     const handleClick = (event) => {
@@ -24,22 +24,22 @@ const ButtonGroup = ({ buttons, action }) => {
     };
     return (
         <div className="button-group">
-            {buttons.map((label, index) => (
+            {buttons.map((button, index) => (
                 <button
                     type="button"
                     key={index}
-                    name={label}
+                    name={button.value}
                     className={`button-group-item ${
                         index === 0
                             ? "button-group-rounded-left"
-                            : index === buttons.length - 1
+                            : index === Object.keys(buttons).length - 1
                             ? "button-group-rounded-right"
                             : "button-group-no-rounded"
                     }
                     `}
                     onClick={(event) => handleClick(event)}
                 >
-                    {label}
+                    {button.value}
                 </button>
             ))}
         </div>

@@ -1,0 +1,21 @@
+.alert-container {
+    position: absolute;
+    bottom: 40px;
+    right: 32px;
+    background-color: var(--outline-input-color);
+    padding: 24px;
+    border-radius: 8px;
+    z-index: 1;
+    box-shadow: 2px 11px 31px 0px rgba(0, 0, 0, 0.35);
+    -webkit-box-shadow: 2px 11px 31px 0px rgba(0, 0, 0, 0.35);
+    -moz-box-shadow: 2px 11px 31px 0px rgba(0, 0, 0, 0.35);
+}
+
+.message{
+    color: #fff;
+}
+
+.countdown{
+    color: #fff;
+    font-weight: 500;
+}

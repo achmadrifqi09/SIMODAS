@@ -1,0 +1,24 @@
+.label {
+    display: block;
+    font-size: 10pt;
+}
+
+.value {
+    display: block;
+    padding-top: 8px;
+    color: #fff !important;
+    font-size: 11pt;
+}
+
+.list {
+    list-style: none;
+}
+
+.list-item {
+    padding: 8px;
+    margin: 2px 0px;
+    border-radius: 4px;
+    margin-right: 4px;
+    background-color:  var(--outline-input-color);
+    /* border-bottom: 1px solid var(--outline-input-color); */
+}

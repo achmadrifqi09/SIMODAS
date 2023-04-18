@@ -2,7 +2,17 @@ import React from "react";
 import "../../../css/input.css";
 
 const InputWithLabel = (props) => {
-    const { type, label, placeholder, name, required, onChange, value } = props;
+    const {
+        type,
+        label,
+        placeholder,
+        name,
+        onChange,
+        value,
+        accept,
+        disabled,
+        isCorrect,
+    } = props;
 
     const handleChange = (event) => {
         onChange(event);
@@ -17,9 +27,16 @@ const InputWithLabel = (props) => {
                 type={type}
                 name={name}
                 id={name}
+                value={value}
                 placeholder={placeholder}
                 onChange={(event) => handleChange(event)}
+                accept={accept}
+                disabled={disabled}
             />
+
+            <span className="error-label">
+                {isCorrect && "Tipe isian ini harus diisi"}
+            </span>
         </div>
     );
 };

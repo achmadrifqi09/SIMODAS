@@ -1,6 +1,5 @@
 import React from "react";
 import "../../../css/button.css";
-import { Link } from "@inertiajs/inertia-react";
 
 const ButtonWithIcon = (props) => {
     const { buttonVariant, children, action, buttonType } = props;

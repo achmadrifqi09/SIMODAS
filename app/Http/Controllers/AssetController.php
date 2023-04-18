@@ -1,45 +1,153 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Imports\AssetsImport;
 use App\Models\Asset;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File as FacadesFile;
+use Intervention\Image\Facades\Image as CompressImage;
 use Inertia\Inertia;
+use Maatwebsite\Excel\Facades\Excel;
+use Throwable;
 
 class AssetController extends Controller
 {
 
-    public function Index(){
-        $tangibleAssets = Asset::orderBy('created_at', 'desc')->where('item_category', 'Berwujud')->get();
-        return Inertia::render('Asset/DashboardAsset', ['tangibleAsset' => $tangibleAssets]);
-    }
-    public function StoredTangibleAsset(Request $request) {
-
-        $validatedData = $request->validate([
-            'item_category' => 'required',
-            'item_code' => 'required',
-            'item_name' => 'required',
-            'certification_number' => 'nullable',
-            'how_to_earn' => 'required',
-            'item_size' => 'nullable',
-            'unit' => 'nullable',
-            'total' =>'required',
-            'registration' =>'nullable',
-            'brand' =>'nullable',
-            'ingredient' =>'nullable',
-            'item_year' =>'required',
-            'item_condition' =>'nullable',
-            'price' =>'required',
-            'location' =>'nullable',
+    public function index(){
+        $tangibleAssets = Asset::orderBy('created_at')->where('item_category', 'Berwujud')->select(['id','item_name', 'price', 'item_year', 'brand']);
+        $itangibleAssets = Asset::orderBy('created_at')->where('item_category', 'Tak Berwujud')->select(['id','item_name', 'price', 'item_year', 'creator']);
+        return Inertia::render('Asset/DashboardAsset', [
+            'tangibleAsset' => fn () => $tangibleAssets->get(), 
+            'itangibleAsset' => fn () => $itangibleAssets->get()
         ]);
-  
-        $validatedData['internal_code'] = $this->GenerateInternalCode();
+    }
+
+    public function create(){
+       return Inertia::render('Asset/FormAsset', ['mode' => 'create']);
+    }
+
+    public function edit($id){
+        $editedAsset = Asset::where('id', $id);
+        return Inertia::render('Asset/FormAsset', ['mode' => 'edit', 'datas' => $editedAsset->get()]);
+    }
+
+    public function store(Request $request){
+        $request->item_category === 'Berwujud' ? $this->storedTangibleAsset($request) :  $this->storedItangibleAsset($request);
+    }
+
+    public function storedItangibleAsset($request){
+        $validatedData = $this->validateInput($request);
+        $validatedData['internal_code'] = $this->generateInternalCode();
         $validatedData['used'] = 0;
 
-       Asset::create($validatedData);
+        Asset::create($validatedData);
+        return redirect()->back()->with('message', 'Berhasil menambahakan data');
     }
 
-    public function GenerateInternalCode() {
+    public function storedTangibleAsset($request) {
+        $validatedData = $this->validateInput($request);
+        $validatedData['internal_code'] = $this->generateInternalCode();
+        $validatedData['used'] = $request->user ? 1 : 0;
+
+        $validatedData['physical_evidence'] = $request->file('physical_evidence') ? $this->compressImage($request->file('physical_evidence')) : null; 
+        if($request->file('file_bast')){
+            $file = $request->file('file_bast')->store('file-bast');
+            $validatedData['file_bast'] = substr($file, 10);
+        }
+
+        Asset::create($validatedData);
+        return redirect()->back()->with('message', 'Berhasil menambahakan data');
+    }
+
+    public function update(Request $request, $id){
+        $request->item_category === 'Berwujud' ? $this->updateTangibleAsset($request, $id) :  $this->updateItangibleAsset($request);
+    }
+
+    public function updateTangibleAsset($request, $id) {
+        $editedAsset = Asset::find($id);
+        $validatedData = $this->validateInput($request);
+
+        if($request->file('physical_evidence')){
+            if($this->deleteOldImage($request->physical_evidence, $editedAsset->physical_evidence)){
+                $validatedData['physical_evidence'] = $this->compressImage($request->file('physical_evidence'));
+            }
+        }
+        $editedAsset->update($validatedData);
+        return redirect()->back()->with('message', 'Berhasil memperbarui data');
+    }
+
+    public function validateInput($request){
+        if($request->item_category === 'Berwujud'){
+            return $request->validate([
+                'item_category' => 'required',
+                'item_code' => 'required',
+                'item_name' => 'required',
+                'certification_number' => 'nullable',
+                'how_to_earn' => 'required',
+                'item_size' => 'nullable',
+                'unit' => 'nullable',
+                'total' =>'required',
+                'registration' =>'nullable',
+                'brand' =>'nullable',
+                'ingredient' =>'nullable',
+                'spesification' =>'nullable',
+                'item_year' =>'required',
+                'item_condition' =>'nullable',
+                'price' =>'required',
+                'location' =>'nullable',
+                'description' => 'nullable'
+            ]);
+
+        }else{
+            return $request->validate([
+                'item_category' => 'required',
+                'how_to_earn' => 'required',
+                'item_condition' =>'nullable',
+                'item_code' => 'required',
+                'item_name' => 'required',
+                'registration' =>'nullable',
+                'item_year' =>'required',
+                'certification_number' => 'nullable',
+                'title' =>'nullable',
+                'creator' =>'nullable',
+                'price' =>'required',
+                'total' =>'nullable',
+                'description' => 'nullable'
+            ]);
+        }
+    }
+
+    public function updateItangibleAsset($request) {
+
+    }
+
+    public function show($id) {
+        $asset = Asset::where('id', $id);
+        return Inertia::render('Asset/DetailedAsset', ['assetData' => $asset->get()]);
+    }
+
+    public function deleteOldImage($newImage, $oldImage){
+        if(FacadesFile::exists(public_path($oldImage)) && $newImage !== $oldImage){
+            FacadesFile::delete(public_path($oldImage));
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public function compressImage($image){
+        $fileName = time() . '-' . $image->getClientOriginalName();
+        $image = CompressImage::make($image);
+        $image->resize(350, null, function ($constraint) {
+            $constraint->aspectRatio();
+        });
+
+        $image->save(\public_path('upload-image/' . $fileName));
+
+        return 'upload-image/' . $fileName;
+    }
+
+    public function generateInternalCode() {
         $unique = false;
         $resultCode = 0;
         while($unique == false){
@@ -55,5 +163,20 @@ class AssetController extends Controller
             }
         }
         return "K-{$resultCode}";
+    }
+
+
+    public function importExcelFile(Request $request){
+        $data = $request->file('file');
+
+        Excel::import(new AssetsImport($request), $data);
+        return redirect()->back()->with('message', 'Berhasil mengimport data');
+      
+    //    dd('Gagal import, pastikan kolom excel sudah sesuai ketentuan', 'error');
+        // try{
+           
+        // }catch(Throwable $e){
+           
+        // }
     }
 }
