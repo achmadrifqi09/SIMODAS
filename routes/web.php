@@ -26,6 +26,7 @@ Route::post('/asset/{id}/update', [AssetController::class, 'update']);
 Route::get('/asset/{id}/detail', [AssetController::class, 'show']);
 Route::get('/asset', [AssetController::class, 'index'])->name('asset');
 Route::get('/asset/form', [AssetController::class, 'create']);
+Route::get('/asset/{id}/label', [AssetController::class, 'showLabel']);
 Route::post('/asset', [AssetController::class, 'store']);
 Route::post('/asset/import', [AssetController::class, 'importExcelFile']);
 

@@ -1,6 +1,7 @@
 const tangibleData = [
     { key: "item_code", label: "Kode Barang" },
     { key: "item_name", label: "Nama Barang" },
+    { key: "user", label: "Pengguna" },
     { key: "certification_number", label: "No Sertifikasi" },
     { key: "how_to_earn", label: "Cara Perolehan" },
     { key: "item_size", label: "Ukuran Barang" },
@@ -20,6 +21,7 @@ const tangibleData = [
 const itangibleData = [
     { key: "item_code", label: "Kode Barang" },
     { key: "item_name", label: "Nama Barang" },
+    { key: "user", label: "Pengguna" },
     { key: "certification_number", label: "No Sertifikasi" },
     { key: "how_to_earn", label: "Cara Perolehan" },
     { key: "total", label: "Total Barang" },

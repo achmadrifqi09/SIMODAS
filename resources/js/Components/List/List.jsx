@@ -8,7 +8,9 @@ const List = ({ datas, presenterData }) => {
                 return (
                     <li className="list-item" key={i}>
                         <span className="label">{presenter.label}</span>
-                        <span className="value">{datas[presenter.key]}</span>
+                        <span className="value">
+                            {datas[presenter.key] ? datas[presenter.key] : "-"}
+                        </span>
                     </li>
                 );
             })}

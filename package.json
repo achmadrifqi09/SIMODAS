@@ -20,10 +20,12 @@
         "@mui/icons-material": "^5.11.11",
         "@mui/material": "^5.11.15",
         "dotenv": "^16.0.3",
+        "html2canvas": "^1.4.1",
         "material-react-table": "^1.9.3",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "react-router-dom": "^6.9.0",
+        "react-select": "^5.7.2",
         "validator": "^13.9.0",
         "vite-plugin-minify": "^1.5.2"
     }

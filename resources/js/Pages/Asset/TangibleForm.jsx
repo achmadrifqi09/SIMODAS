@@ -14,7 +14,7 @@ import {
     checkAllInputIsCorrect,
 } from "../../Utils/ValidatorInput";
 import Toast from "../../Components/Toast/Toast";
-// kurang pengguna
+import ReactSelect from "../../Components/Input/ReactSelect";
 
 const TangibleForm = (props) => {
     const { mode, datas, res } = props;
@@ -30,7 +30,14 @@ const TangibleForm = (props) => {
     });
     const [isSubmit, setIsSubmit] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
-
+    let employeesData = props.employees.map((user) => {
+        return {
+            value: user.name,
+            label: user.name,
+        };
+    });
+    employeesData.unshift({ value: "-", label: "-" });
+    
     const handleSubmit = () => {
         mode === "create"
             ? Inertia.post("/asset", formData)
@@ -206,6 +213,13 @@ const TangibleForm = (props) => {
                             label="Lokasi"
                             onChange={handleChange}
                             value={formData?.location || ""}
+                        />
+                        <ReactSelect
+                            datas={[...employeesData]}
+                            label="Pengguna"
+                            onChange={handleChange}
+                            name="user"
+                            defaultValue={formData?.user || ""}
                         />
                     </WrapperItemsColumn>
                 </Column>

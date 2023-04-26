@@ -7,7 +7,7 @@
 
 .main {
     width: 100%;
-    main-height: 100vh;
+    min-height: 100vh;
     overflow-y: scroll;
     padding: 32px;
     box-sizing: border-box;
@@ -29,6 +29,7 @@
     border-radius: 8px;
     margin: 16px 0px;
     box-sizing: border-box;
+    overflow: scroll;
 }
 
 .column {

@@ -43,6 +43,18 @@
     margin-left: auto;
 }
 
+.button-primary-sm {
+    padding: 6px;
+    display: flex;
+    background-color: var(--accent-color);
+    border: none;
+    border-radius: 8px;
+    align-items: center;
+    font-size: 10pt;
+    gap: 8px;
+    cursor: pointer;
+}
+
 .button-primary-lg {
     padding: 8px 32px;
     display: flex;
@@ -87,6 +99,11 @@
     margin-bottom: 10px;
     left: 110%;
     border-radius: 4px;
+}
+
+.link {
+    text-decoration: underline;
+    margin-right: 8px;
 }
 
 .button-group-item {

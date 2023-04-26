@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Head } from "@inertiajs/inertia-react";
 import { Layout } from "../../Layouts/index";
 import Container from "../../Layouts/Container";
@@ -13,6 +13,12 @@ const AddAsset = (props) => {
     const handleClickButtonGroup = (event) => {
         setformType(event.target.name);
     };
+
+    useEffect(() => {
+        if (props.mode === "edit") {
+            setformType(props.datas[0].item_category);
+        }
+    }, []);
 
     return (
         <Layout>
@@ -45,12 +51,14 @@ const AddAsset = (props) => {
                         mode={props.mode}
                         datas={props.mode === "edit" ? props?.datas[0] : ""}
                         res={{ errors: props.errors, flash: props.flash }}
+                        employees={props.employees}
                     />
                 ) : (
                     <ItangibleForm
                         mode={props.mode}
                         datas={props.mode === "edit" ? props?.datas[0] : ""}
                         res={{ errors: props.errors, flash: props.flash }}
+                        employees={props.employees}
                     />
                 )}
             </Container>

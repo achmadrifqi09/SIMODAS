@@ -19,6 +19,7 @@
     padding: 24px;
     border-radius: 8px;
     width: 60%;
+    box-sizing: border-box;
 }
 
 .modal-header {

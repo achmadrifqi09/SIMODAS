@@ -2,7 +2,7 @@ import React from "react";
 import "../../../css/input.css";
 
 const SelectWithLabel = (props) => {
-    const { datas, label, name, onChange } = props;
+    const { datas, label, name, onChange, isCorrect } = props;
     const handleChange = (event) => {
         onChange(event);
     };
@@ -27,6 +27,9 @@ const SelectWithLabel = (props) => {
                     </option>
                 ))}
             </select>
+            <span className="error-label">
+                {isCorrect && "Tipe isian ini harus diisi"}
+            </span>
         </div>
     );
 };

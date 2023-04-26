@@ -1,7 +1,7 @@
 .wraper-input {
     box-sizing: border-box;
-  margin-top: 8px;
-  margin-bottom: 16px;
+    margin-top: 8px;
+    margin-bottom: 16px;
 }
 
 .input {
@@ -31,7 +31,7 @@ label {
 .error-label {
     color: var(--danger-color);
     margin-left: 4px;
-    display:block;
+    display: block;
     margin-top: 4px;
     height: 14px;
 }
@@ -41,8 +41,7 @@ label {
     border-radius: 8px;
     background-color: var(--secon-color);
     border: 1px solid var(--outline-input-color);
-    margin: 8px 0px;
-    position: relative;
+    margin-top: 8px;
     width: 100%;
     box-sizing: border-box;
 }
@@ -79,7 +78,7 @@ label {
     align-items: center;
 }
 
-.wraper-input-file label {
+.wraper-input-file .choose-file-button {
     font-family: sans-serif;
     background: var(--accent-color);
     padding: 8px;
@@ -88,6 +87,10 @@ label {
     transition: all 0.2s;
     width: max-content;
     margin-top: 24px;
+}
+
+.wraper-input-file .choose-image {
+    margin-top: 0px !important;
 }
 
 .wraper-input-file span {
@@ -133,4 +136,18 @@ input::file-selector-button {
     border-radius: 8px;
     font-family: Inter;
     font-weight: 400;
+}
+
+.input-media-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+}
+.wrapper-button-select-file {
+    display: flex;
+    gap: 24px;
+    margin-top: 24px;
+    align-items: center;
 }

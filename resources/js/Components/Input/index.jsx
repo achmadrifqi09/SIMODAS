@@ -3,4 +3,9 @@ import InputWithLabel from "./InputWithLabel";
 import InputFile from "./InputFile";
 import TextareaWithLabel from "./TextareaWithLabel";
 
-export { SelectWithLabel, InputWithLabel, InputFile, TextareaWithLabel };
+export {
+    SelectWithLabel,
+    InputWithLabel,
+    InputFile,
+    TextareaWithLabel,
+};

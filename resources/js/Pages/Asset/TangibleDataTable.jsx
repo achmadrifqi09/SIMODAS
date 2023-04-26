@@ -64,7 +64,9 @@ const TangibleDataTable = (props) => {
                 <MenuItem
                     key="label"
                     sx={{ fontSize: "10pt" }}
-                    onClick={() => console.info("Edit")}
+                    onClick={() =>
+                        Inertia.visit(`/asset/${row.original.id}/label`)
+                    }
                 >
                     Label
                 </MenuItem>,

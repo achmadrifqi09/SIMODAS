@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 use App\Imports\AssetsImport;
 use App\Models\Asset;
+use App\Models\Employee;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File as FacadesFile;
 use Intervention\Image\Facades\Image as CompressImage;
@@ -23,31 +25,21 @@ class AssetController extends Controller
     }
 
     public function create(){
-       return Inertia::render('Asset/FormAsset', ['mode' => 'create']);
+        $employees = Employee::all();
+        return Inertia::render('Asset/FormAsset', ['mode' => 'create', 'employees' => $employees]);
     }
 
     public function edit($id){
         $editedAsset = Asset::where('id', $id);
-        return Inertia::render('Asset/FormAsset', ['mode' => 'edit', 'datas' => $editedAsset->get()]);
+        $employees = Employee::all();
+        return Inertia::render('Asset/FormAsset', ['mode' => 'edit', 'datas' => $editedAsset->get(),  'employees' => $employees]);
     }
 
     public function store(Request $request){
-        $request->item_category === 'Berwujud' ? $this->storedTangibleAsset($request) :  $this->storedItangibleAsset($request);
-    }
-
-    public function storedItangibleAsset($request){
+        // $request->item_category === 'Berwujud' ? $this->storedTangibleAsset($request) :  $this->storedItangibleAsset($request);
         $validatedData = $this->validateInput($request);
         $validatedData['internal_code'] = $this->generateInternalCode();
-        $validatedData['used'] = 0;
-
-        Asset::create($validatedData);
-        return redirect()->back()->with('message', 'Berhasil menambahakan data');
-    }
-
-    public function storedTangibleAsset($request) {
-        $validatedData = $this->validateInput($request);
-        $validatedData['internal_code'] = $this->generateInternalCode();
-        $validatedData['used'] = $request->user ? 1 : 0;
+        $validatedData['used'] = $request->user === null ? 0 : 1;
 
         $validatedData['physical_evidence'] = $request->file('physical_evidence') ? $this->compressImage($request->file('physical_evidence')) : null; 
         if($request->file('file_bast')){
@@ -59,13 +51,40 @@ class AssetController extends Controller
         return redirect()->back()->with('message', 'Berhasil menambahakan data');
     }
 
-    public function update(Request $request, $id){
-        $request->item_category === 'Berwujud' ? $this->updateTangibleAsset($request, $id) :  $this->updateItangibleAsset($request);
+    public function showLabel($id){
+        $asset = Asset::where('id', $id)->get();
+        return Inertia::render('Asset/LabelAsset', ['datas' => $asset]);
     }
 
-    public function updateTangibleAsset($request, $id) {
+    // public function storedItangibleAsset($request){
+    //     $validatedData = $this->validateInput($request);
+    //     $validatedData['internal_code'] = $this->generateInternalCode();
+    //     $validatedData['used'] = $request->user === null ? 0 : 1;
+
+    //     Asset::create($validatedData);
+    //     return redirect()->back()->with('message', 'Berhasil menambahakan data');
+    // }
+
+    // public function storedTangibleAsset($request) {
+    //     $validatedData = $this->validateInput($request);
+    //     $validatedData['internal_code'] = $this->generateInternalCode();
+    //     $validatedData['used'] = $request->user === null ? 0 : 1;
+
+    //     $validatedData['physical_evidence'] = $request->file('physical_evidence') ? $this->compressImage($request->file('physical_evidence')) : null; 
+    //     if($request->file('file_bast')){
+    //         $file = $request->file('file_bast')->store('file-bast');
+    //         $validatedData['file_bast'] = substr($file, 10);
+    //     }
+
+    //     Asset::create($validatedData);
+    //     return redirect()->back()->with('message', 'Berhasil menambahakan data');
+    // }
+
+    public function update(Request $request, $id){
         $editedAsset = Asset::find($id);
         $validatedData = $this->validateInput($request);
+
+        $validatedData['used'] = $request->user === null ? 0 : 1;
 
         if($request->file('physical_evidence')){
             if($this->deleteOldImage($request->physical_evidence, $editedAsset->physical_evidence)){
@@ -75,6 +94,32 @@ class AssetController extends Controller
         $editedAsset->update($validatedData);
         return redirect()->back()->with('message', 'Berhasil memperbarui data');
     }
+
+    // public function updateTangibleAsset($request, $id) {
+    //     $editedAsset = Asset::find($id);
+    //     $validatedData = $this->validateInput($request);
+
+    //     $validatedData['used'] = $request->user === null ? 0 : 1;
+
+    //     if($request->file('physical_evidence')){
+    //         if($this->deleteOldImage($request->physical_evidence, $editedAsset->physical_evidence)){
+    //             $validatedData['physical_evidence'] = $this->compressImage($request->file('physical_evidence'));
+    //         }
+    //     }
+    //     $editedAsset->update($validatedData);
+    //     return redirect()->back()->with('message', 'Berhasil memperbarui data');
+    // }
+
+    // public function updateItangibleAsset($request, $id) {
+    //     $editedAsset = Asset::find($id);
+    //     $validatedData = $this->validateInput($request);
+    //     $validatedData['internal_code'] = $this->generateInternalCode();
+    //     $validatedData['used'] = $request->user === null ? 0 : 1;
+
+    //     Asset::create($validatedData);
+    //     return redirect()->back()->with('message', 'Berhasil menambahakan data');
+
+    // }
 
     public function validateInput($request){
         if($request->item_category === 'Berwujud'){
@@ -95,7 +140,8 @@ class AssetController extends Controller
                 'item_condition' =>'nullable',
                 'price' =>'required',
                 'location' =>'nullable',
-                'description' => 'nullable'
+                'description' => 'nullable',
+                'user' => 'nullable'
             ]);
 
         }else{
@@ -112,14 +158,13 @@ class AssetController extends Controller
                 'creator' =>'nullable',
                 'price' =>'required',
                 'total' =>'nullable',
-                'description' => 'nullable'
+                'description' => 'nullable',
+                'user' => 'nullable'
             ]);
         }
     }
 
-    public function updateItangibleAsset($request) {
 
-    }
 
     public function show($id) {
         $asset = Asset::where('id', $id);
@@ -136,7 +181,7 @@ class AssetController extends Controller
     }
 
     public function compressImage($image){
-        $fileName = time() . '-' . $image->getClientOriginalName();
+        $fileName = time() . null . $image->getClientOriginalName();
         $image = CompressImage::make($image);
         $image->resize(350, null, function ($constraint) {
             $constraint->aspectRatio();

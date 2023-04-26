@@ -82,7 +82,7 @@ const DashboardEmployee = (props) => {
 
     return (
         <Layout>
-            <Head title="Kelola Aset" />
+            <Head title="Kelola Pengguna" />
             <h2>Kelola Pengguna</h2>
             {isOpenToast && (
                 <Toast

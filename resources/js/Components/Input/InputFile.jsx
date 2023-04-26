@@ -2,15 +2,9 @@ import React, { useEffect } from "react";
 import "../../../css/input.css";
 import { CloudArrowUpIcon } from "@heroicons/react/24/outline";
 
-const InputFile = ({
-    name,
-    accept,
-    label,
-    onChange,
-    previewType,
-    value,
-    acceptFile,
-}) => {
+const InputFile = (props) => {
+    const { name, accept, label, onChange, previewType, value, acceptFile } =
+        props;
     const handleChange = (event) => {
         setInputValue(event.target.files[0], event.target.name);
         onChange(event);
@@ -49,7 +43,11 @@ const InputFile = ({
                 <CloudArrowUpIcon className="icon-lg" id="icon-upload" />
             </div>
             <span>File yang diperbolehkan {acceptFile}</span>
-            <label htmlFor={name} id="chooseFile">
+            <label
+                htmlFor={name}
+                id="chooseFile"
+                className="choose-file-button"
+            >
                 {label}
             </label>
             <input
