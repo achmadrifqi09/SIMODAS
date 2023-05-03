@@ -9,7 +9,8 @@
         "axios": "^1.1.2",
         "laravel-vite-plugin": "^0.7.2",
         "terser": "^5.16.8",
-        "vite": "^4.0.0"
+        "vite": "^4.0.0",
+        "vite-plugin-compression": "^0.5.1"
     },
     "dependencies": {
         "@emotion/react": "^11.10.6",
@@ -17,9 +18,10 @@
         "@heroicons/react": "^2.0.16",
         "@inertiajs/inertia": "^0.11.1",
         "@inertiajs/inertia-react": "^0.8.1",
+        "@inertiajs/progress": "^0.2.7",
         "@mui/icons-material": "^5.11.11",
         "@mui/material": "^5.11.15",
-        "dotenv": "^16.0.3",
+        "@react-pdf/renderer": "^3.1.9",
         "html2canvas": "^1.4.1",
         "material-react-table": "^1.9.3",
         "react": "^18.2.0",

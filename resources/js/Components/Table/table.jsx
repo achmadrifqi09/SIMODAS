@@ -1,6 +1,5 @@
 import React from "react";
 import { createTheme, ThemeProvider } from "@mui/material";
-import { MenuItem } from "@mui/material";
 import MaterialReactTable from "material-react-table";
 
 const Table = ({ datas, columns, action }) => {
@@ -16,7 +15,6 @@ const Table = ({ datas, columns, action }) => {
                 data={datas}
                 enableClickToCopy={true}
                 onHoveredColumnChange={false}
-                enableColumnActions={false}
                 rowNumberMode="static"
                 muiTopToolbarProps={{
                     sx: {
@@ -41,9 +39,7 @@ const Table = ({ datas, columns, action }) => {
                     elevation: 0,
                 }}
                 enableRowActions
-                renderRowActionMenuItems={
-                    action
-                }
+                renderRowActionMenuItems={action}
             />
         </ThemeProvider>
     );

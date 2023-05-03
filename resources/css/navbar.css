@@ -1,10 +1,11 @@
 .nav {
-    width: 392px;
+    width: 320px;
     height: 100vh;
     background-color: var(--second-color);
     padding: 24px;
     box-sizing: border-box;
     overflow: hidden;
+    flex-shrink: 0;
 }
 
 .nav-brand {
@@ -45,7 +46,6 @@
 .icon-lg {
     width: 48px;
 }
-
 
 .nav-link {
     display: flex;

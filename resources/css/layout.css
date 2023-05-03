@@ -29,15 +29,18 @@
     border-radius: 8px;
     margin: 16px 0px;
     box-sizing: border-box;
-    overflow: scroll;
 }
 
 .column {
     display: flex;
     gap: 24px;
     justify-content: space-between;
-    margin: 16px 0px;
     box-sizing: border-box;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
 
 .items-column {
@@ -52,6 +55,10 @@
 .scrolling::-webkit-scrollbar {
     width: 10px;
     background-color: var(--second-color);
+}
+
+.heading-container {
+    margin: 16px 0px;
 }
 
 .scrolling::-webkit-scrollbar-thumb {

@@ -3,8 +3,8 @@ import { ButtonCommon } from "../../Components/Button/index";
 import {
     InputFile,
     InputWithLabel,
-    SelectWithLabel,
     TextareaWithLabel,
+    ReactSelect,
 } from "../../Components/Input/index";
 import { Column, WrapperItemsColumn } from "../../Layouts/index";
 import { Inertia } from "@inertiajs/inertia";
@@ -13,13 +13,12 @@ import {
     validatorInput,
     checkAllInputIsCorrect,
 } from "../../Utils/ValidatorInput";
+import { howToEarn, itemCondition } from "../../Utils/PresenterData";
 import Toast from "../../Components/Toast/Toast";
 
 const ItangibleForm = (props) => {
     const { mode, datas, res } = props;
     const [formData, setFormData] = useState(mode === "edit" ? datas : {});
-    const howToEarn = [{ value: "Pembelian" }, { value: "Hibah" }];
-    const itemCondition = [{ value: "Baik" }, { value: "Rusak Berat" }];
     const [inputErrors, setInputErrors] = useState({
         item_code: mode === "edit" ? false : true,
         item_name: mode === "edit" ? false : true,
@@ -65,8 +64,6 @@ const ItangibleForm = (props) => {
         setFormData({
             ...formData,
             item_category: "Tak Berwujud",
-            how_to_earn: "Pembelian",
-            item_condition: "Baik",
             total: 1,
         });
         const isErrorsInput = checkAllInputIsCorrect(inputErrors);
@@ -75,7 +72,12 @@ const ItangibleForm = (props) => {
 
     return (
         <>
-            {isLoading && <Spinner />}
+            {isLoading && (
+                <Spinner
+                    bgVariant="bg-half-opacity"
+                    message=" Sedang memuat, mohon tunggu ..."
+                />
+            )}
             {isSuccess && (
                 <Toast urlRedirect="/asset" message={res.flash.message} />
             )}
@@ -146,17 +148,21 @@ const ItangibleForm = (props) => {
                             onChange={handleChange}
                             value={formData?.certification_number || ""}
                         />
-                        <SelectWithLabel
+                        <ReactSelect
                             datas={itemCondition}
-                            name="item_condition"
                             label="Kondisi Barang"
                             onChange={handleChange}
+                            name="item_condition"
+                            isMulti={false}
+                            defaultValue={formData?.item_condition || ""}
                         />
-                        <SelectWithLabel
+                        <ReactSelect
                             datas={howToEarn}
                             label="Cara Perolehan"
-                            name="how_to_earn"
                             onChange={handleChange}
+                            name="how_to_earn"
+                            isMulti={false}
+                            defaultValue={formData?.how_to_earn || ""}
                         />
 
                         <InputWithLabel
@@ -200,6 +206,7 @@ const ItangibleForm = (props) => {
                     action={handleSubmit}
                     buttonVariant="button-primary-lg"
                     disabled={!isSubmit}
+                    buttonType="submit"
                 >
                     Submit
                 </ButtonCommon>

@@ -2,6 +2,7 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import { createInertiaApp } from "@inertiajs/inertia-react";
 import "../css/app.css";
+import { InertiaProgress } from "@inertiajs/progress";
 
 const appName =
     window.document.getElementsByTagName("title")[0]?.innerText || "SIMODAS";
@@ -16,3 +17,5 @@ createInertiaApp({
         createRoot(el).render(<App {...props} />);
     },
 });
+
+InertiaProgress.init({ color: "#237bff" });

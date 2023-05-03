@@ -7,6 +7,7 @@ const ButtonCommon = ({
     tooltip,
     buttonVariant,
     disabled,
+    buttonType,
 }) => {
     const handleSubmit = () => {
         action();
@@ -17,7 +18,7 @@ const ButtonCommon = ({
             data-tooltip={tooltip}
             className={buttonVariant}
             onClick={() => handleSubmit()}
-            type="button"
+            type={buttonType}
             disabled={disabled}
         >
             {children}

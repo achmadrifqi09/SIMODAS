@@ -57,7 +57,7 @@ const EmployeeForm = (props) => {
     }, [errors, inputErrors, flash]);
 
     return (
-        <>
+        <Layout>
             {isLoading && <Spinner />}
             {isSuccess && (
                 <Toast urlRedirect="/employees" message={flash.message} />
@@ -71,70 +71,69 @@ const EmployeeForm = (props) => {
                         : ""
                 }
             />
-            <Layout>
-                <h2>
-                    {props.mode == "edit"
-                        ? "Edit Data"
-                        : props.mode == "create"
-                        ? "Tambah Data"
-                        : ""}
-                </h2>
-                <Container>
-                    <form>
-                        <InputWithLabel
-                            type="text"
-                            name="name"
-                            placeholder="Masukkan nama lengakap pengguna"
-                            label="Nama Pengguna"
-                            onChange={handleChange}
-                            value={formData?.name || ""}
-                            isCorrect={inputErrors.name}
-                        />
-                        <InputWithLabel
-                            type="text"
-                            name="rank"
-                            placeholder="ex: Penata Tk. I"
-                            label="Pangkat"
-                            onChange={handleChange}
-                            value={formData?.rank || ""}
-                        />
-                        <InputWithLabel
-                            type="text"
-                            name="position"
-                            placeholder="ex: Kasub. Bag. Umum dan Kepegawaian"
-                            label="Jabatan"
-                            onChange={handleChange}
-                            value={formData?.position || ""}
-                        />
+            <h2>
+                {props.mode == "edit"
+                    ? "Edit Data"
+                    : props.mode == "create"
+                    ? "Tambah Data"
+                    : ""}
+            </h2>
+            <Container>
+                <form>
+                    <InputWithLabel
+                        type="text"
+                        name="name"
+                        placeholder="Masukkan nama lengakap pengguna"
+                        label="Nama Pengguna"
+                        onChange={handleChange}
+                        value={formData?.name || ""}
+                        isCorrect={inputErrors.name}
+                    />
+                    <InputWithLabel
+                        type="text"
+                        name="rank"
+                        placeholder="ex: Penata Tk. I"
+                        label="Pangkat"
+                        onChange={handleChange}
+                        value={formData?.rank || ""}
+                    />
+                    <InputWithLabel
+                        type="text"
+                        name="position"
+                        placeholder="ex: Kasub. Bag. Umum dan Kepegawaian"
+                        label="Jabatan"
+                        onChange={handleChange}
+                        value={formData?.position || ""}
+                    />
 
-                        <InputWithLabel
-                            type="text"
-                            name="nip"
-                            placeholder="ex: 19860xxxxxx"
-                            label="NIP Pengguna"
-                            onChange={handleChange}
-                            value={formData?.nip || ""}
-                        />
-                        <InputWithLabel
-                            type="text"
-                            name="group"
-                            placeholder="ex: III - d"
-                            label="Golongan"
-                            onChange={handleChange}
-                            value={formData?.group || ""}
-                        />
+                    <InputWithLabel
+                        type="text"
+                        name="nip"
+                        placeholder="ex: 19860xxxxxx"
+                        label="NIP Pengguna"
+                        onChange={handleChange}
+                        value={formData?.nip || ""}
+                    />
+                    <InputWithLabel
+                        type="text"
+                        name="group"
+                        placeholder="ex: III - d"
+                        label="Golongan"
+                        onChange={handleChange}
+                        value={formData?.group || ""}
+                    />
 
-                        <ButtonCommon
-                            action={handleSubmit}
-                            buttonVariant="button-primary-lg"
-                            disabled={!isSubmit}
-                        >
-                            Submit
-                        </ButtonCommon>
-                    </form>
-                </Container>
-            </Layout>
-        </>
+                    <ButtonCommon
+                        action={handleSubmit}
+                        buttonVariant="button-primary-lg"
+                        disabled={!isSubmit}
+                        buttonType="submit"
+                    >
+                        Submit
+                    </ButtonCommon>
+                </form>
+            </Container>
+        </Layout>
     );
 };
 

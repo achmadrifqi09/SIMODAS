@@ -17,6 +17,7 @@ const InputWithLabel = (props) => {
     const handleChange = (event) => {
         onChange(event);
     };
+
     return (
         <div className="wraper-input">
             <label htmlFor={name} className="label">
@@ -32,6 +33,7 @@ const InputWithLabel = (props) => {
                 onChange={(event) => handleChange(event)}
                 accept={accept}
                 disabled={disabled}
+                maxLength={100}
             />
 
             <span className="error-label">

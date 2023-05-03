@@ -52,6 +52,9 @@ const AddAsset = (props) => {
                         datas={props.mode === "edit" ? props?.datas[0] : ""}
                         res={{ errors: props.errors, flash: props.flash }}
                         employees={props.employees}
+                        tangibleAssets={
+                            props.mode === "create" ? props.tangibleAssets : ""
+                        }
                     />
                 ) : (
                     <ItangibleForm

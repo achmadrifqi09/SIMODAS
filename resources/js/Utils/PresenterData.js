@@ -1,38 +1,53 @@
 const tangibleData = [
-    { key: "item_code", label: "Kode Barang" },
-    { key: "item_name", label: "Nama Barang" },
-    { key: "user", label: "Pengguna" },
-    { key: "certification_number", label: "No Sertifikasi" },
-    { key: "how_to_earn", label: "Cara Perolehan" },
-    { key: "item_size", label: "Ukuran Barang" },
-    { key: "unit", label: "Satuan" },
-    { key: "total", label: "Total Barang" },
-    { key: "registration", label: "No Registrasi" },
-    { key: "brand", label: "Merk Barang" },
-    { key: "ingredient", label: "Bahan" },
-    { key: "item_year", label: "Tahun" },
-    { key: "item_condition", label: "Kondisi" },
-    { key: "price", label: "Harga" },
-    { key: "location", label: "Lokasi" },
-    { key: "internal_code", label: "Kode Internal" },
-    { key: "description", label: "Deskripsi" },
+    { value: "item_code", label: "Kode Barang" },
+    { value: "item_name", label: "Nama Barang" },
+    { value: "user", label: "Pengguna" },
+    { value: "certification_number", label: "No Sertifikasi" },
+    { value: "how_to_earn", label: "Cara Perolehan" },
+    { value: "item_size", label: "Ukuran Barang" },
+    { value: "unit", label: "Satuan" },
+    { value: "total", label: "Total Barang" },
+    { value: "registration", label: "No Registrasi" },
+    { value: "brand", label: "Merk Barang" },
+    { value: "ingredient", label: "Bahan" },
+    { value: "item_year", label: "Tahun" },
+    { value: "item_condition", label: "Kondisi" },
+    { value: "price", label: "Harga" },
+    { value: "location", label: "Lokasi" },
+    { value: "internal_code", label: "Kode Internal" },
+    { value: "description", label: "Deskripsi" },
 ];
 
 const itangibleData = [
-    { key: "item_code", label: "Kode Barang" },
-    { key: "item_name", label: "Nama Barang" },
-    { key: "user", label: "Pengguna" },
-    { key: "certification_number", label: "No Sertifikasi" },
-    { key: "how_to_earn", label: "Cara Perolehan" },
-    { key: "total", label: "Total Barang" },
-    { key: "registration", label: "No Registrasi" },
-    { key: "item_year", label: "Tahun" },
-    { key: "item_condition", label: "Kondisi" },
-    { key: "price", label: "Harga" },
-    { key: "title", label: "Judul/Nama" },
-    { key: "creator", label: "Pencipta" },
-    { key: "internal_code", label: "Kode Internal" },
-    { key: "description", label: "Deskripsi" },
+    { value: "item_code", label: "Kode Barang" },
+    { value: "item_name", label: "Nama Barang" },
+    { value: "user", label: "Pengguna" },
+    { value: "certification_number", label: "No Sertifikasi" },
+    { value: "how_to_earn", label: "Cara Perolehan" },
+    { value: "total", label: "Total Barang" },
+    { value: "registration", label: "No Registrasi" },
+    { value: "item_year", label: "Tahun" },
+    { value: "item_condition", label: "Kondisi" },
+    { value: "price", label: "Harga" },
+    { value: "title", label: "Judul/Nama" },
+    { value: "creator", label: "Pencipta" },
+    { value: "internal_code", label: "Kode Internal" },
+    { value: "description", label: "Deskripsi" },
 ];
 
-export { tangibleData, itangibleData };
+const itemCategory = [
+    { value: "Berwujud", label: "Berwujud" },
+    { value: "Tak Berwujud", label: "Tak Berwujud" },
+];
+
+const howToEarn = [
+    { value: "Pembelian", label: "Pembelian" },
+    { value: "Hibah", label: "Hibah" },
+];
+
+const itemCondition = [
+    { value: "Baik", label: "Baik" },
+    { value: "Rusak Berat", label: "Rusak Berat" },
+];
+
+export { tangibleData, itangibleData, itemCategory, howToEarn, itemCondition };

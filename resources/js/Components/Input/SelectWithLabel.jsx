@@ -2,7 +2,7 @@ import React from "react";
 import "../../../css/input.css";
 
 const SelectWithLabel = (props) => {
-    const { datas, label, name, onChange, isCorrect } = props;
+    const { datas, label, name, onChange, isCorrect, value } = props;
     const handleChange = (event) => {
         onChange(event);
     };
@@ -15,6 +15,7 @@ const SelectWithLabel = (props) => {
                 name={name}
                 id={name}
                 className="select"
+                
                 onChange={(event) => handleChange(event)}
             >
                 {datas.map((data, index) => (

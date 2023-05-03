@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Select from "react-select";
 import "../../../css/input.css";
 
 const ReactSelect = (props) => {
-    const { datas, onChange, label, name, defaultValue } = props;
+    const { datas, onChange, label, name, defaultValue, isMulti, isCorrect } =
+        props;
 
-    const handleChange = (event) => {
+    const handleChange = (selectedOption) => {
         onChange({
             target: {
                 name: name,
-                value: event.value,
+                value: isMulti ? selectedOption : selectedOption.value,
             },
         });
     };
@@ -21,13 +22,12 @@ const ReactSelect = (props) => {
                 {label}
             </label>
             <Select
-                onChange={(event) => handleChange(event)}
+                onChange={handleChange}
                 options={datas}
                 defaultValue={
-                    defaultValue
-                        ? datas[datas.findIndex(isDefaultValue)]
-                        : datas[0]
+                    defaultValue && datas[datas.findIndex(isDefaultValue)]
                 }
+                isMulti={isMulti}
                 name={name}
                 id={name}
                 theme={(theme) => ({
@@ -62,6 +62,9 @@ const ReactSelect = (props) => {
                     }),
                 }}
             />
+            <span className="error-label">
+                {isCorrect && "Tipe isian ini harus diisi"}
+            </span>
         </div>
     );
 };

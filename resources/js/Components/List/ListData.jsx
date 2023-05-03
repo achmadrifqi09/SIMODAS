@@ -1,7 +1,7 @@
 import React from "react";
 import "../../../css/list.css";
 
-const List = ({ datas, presenterData }) => {
+const ListData = ({ datas, presenterData }) => {
     return (
         <ul className="list">
             {presenterData.map((presenter, i) => {
@@ -9,7 +9,9 @@ const List = ({ datas, presenterData }) => {
                     <li className="list-item" key={i}>
                         <span className="label">{presenter.label}</span>
                         <span className="value">
-                            {datas[presenter.key] ? datas[presenter.key] : "-"}
+                            {datas[presenter.value]
+                                ? datas[presenter.value]
+                                : "-"}
                         </span>
                     </li>
                 );
@@ -18,4 +20,4 @@ const List = ({ datas, presenterData }) => {
     );
 };
 
-export default List;
+export default ListData;

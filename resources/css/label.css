@@ -1,10 +1,10 @@
 .canvas {
-    width: 594px;
+    width: 568px;
     height: auto;
     background-color: white;
     color: black !important;
     padding: 14px;
-    overflow: scroll;
+    overflow-x: scroll;
     margin: 24px 0px;
 }
 

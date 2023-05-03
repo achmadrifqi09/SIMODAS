@@ -4,14 +4,18 @@
     justify-content: center;
     align-items: center;
     width: 100vw;
-    height: 100vh;
+    height: 100%;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 99;
-    overflow: hidden;
+    /* overflow: hidden; */
+}
+
+.modal-container::-webkit-scrollbar {
+    display: none;
 }
 
 .modal {
@@ -40,4 +44,15 @@
 
 .modal-title {
     font-weight: 500;
+}
+
+b {
+    color: #fff;
+}
+
+@media (max-width: 768px) {
+    .modal {
+        width: 90%;
+        padding-top: 80px;
+    }
 }

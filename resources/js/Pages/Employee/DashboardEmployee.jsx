@@ -107,7 +107,7 @@ const DashboardEmployee = (props) => {
                 </ButtonWithIcon>
                 <LinkWithIcon buttonType="button-primary">
                     <DocumentArrowDownIcon className="button-icon" />
-                    Eksport PDF
+                    Export PDF
                 </LinkWithIcon>
             </NavigationCard>
             <Container>
@@ -151,7 +151,7 @@ const DashboardEmployee = (props) => {
                     <Container>
                         <p>
                             Apakah anda yakin akan mengahapus pengguna dengan
-                            nama <b>{deletedData?.name}</b> ?
+                            nama {deletedData?.name}?
                         </p>
                     </Container>
                     <ButtonCommon
@@ -178,6 +178,7 @@ const DashboardEmployee = (props) => {
                         <ButtonCommon
                             buttonVariant="button-primary-lg"
                             action={handleSubmit}
+                            buttonType="button"
                         >
                             Import
                         </ButtonCommon>

@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import { ButtonCommon } from "../../Components/Button/index";
 import {
     InputWithLabel,
-    SelectWithLabel,
     TextareaWithLabel,
     InputFile,
+    Checkbox,
+    ReactSelect
 } from "../../Components/Input/index";
 import { Column, WrapperItemsColumn } from "../../Layouts/index";
 import { Inertia } from "@inertiajs/inertia";
@@ -14,13 +15,11 @@ import {
     checkAllInputIsCorrect,
 } from "../../Utils/ValidatorInput";
 import Toast from "../../Components/Toast/Toast";
-import ReactSelect from "../../Components/Input/ReactSelect";
+import { howToEarn, itemCondition } from "../../Utils/PresenterData";
 
 const TangibleForm = (props) => {
-    const { mode, datas, res } = props;
+    const { mode, datas, res, tangibleAssets } = props;
     const [formData, setFormData] = useState(mode === "edit" ? datas : {});
-    const howToEarn = [{ value: "Pembelian" }, { value: "Hibah" }];
-    const itemCondition = [{ value: "Baik" }, { value: "Rusak Berat" }];
     const [isLoading, setIsLoading] = useState(false);
     const [inputErrors, setInputErrors] = useState({
         item_code: mode === "edit" ? false : true,
@@ -28,16 +27,31 @@ const TangibleForm = (props) => {
         item_year: mode === "edit" ? false : true,
         price: mode === "edit" ? false : true,
     });
+    const [isInternalCode, setIsInternalCode] = useState(false);
     const [isSubmit, setIsSubmit] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
-    let employeesData = props.employees.map((user) => {
+
+    const employeesData = props.employees.map((employee) => {
         return {
-            value: user.name,
-            label: user.name,
+            value: employee.name,
+            label: employee.name,
         };
     });
     employeesData.unshift({ value: "-", label: "-" });
-    
+
+    const assetData =
+        mode === "create" &&
+        tangibleAssets.map((tangibleAsset) => {
+            return {
+                value: tangibleAsset.internal_code,
+                label: `${tangibleAsset.item_name} - ${
+                    tangibleAsset.brand || "-"
+                } - ${tangibleAsset.item_year} - ${
+                    tangibleAsset.internal_code
+                }`,
+            };
+        });
+
     const handleSubmit = () => {
         mode === "create"
             ? Inertia.post("/asset", formData)
@@ -45,6 +59,7 @@ const TangibleForm = (props) => {
               Inertia.post(`/asset/${datas.id}/update`, formData);
         setIsLoading(true);
     };
+
 
     const handleChange = (event) => {
         const { name, value, type } = event.target;
@@ -61,6 +76,11 @@ const TangibleForm = (props) => {
         });
     };
 
+    const handleChecked = (event) => {
+        event.target.name === "is_internal_code" &&
+            setIsInternalCode(event.target.checked);
+    };
+
     useEffect(() => {
         if (Object.keys(res.errors).length !== 0) {
             setIsLoading(false);
@@ -73,8 +93,6 @@ const TangibleForm = (props) => {
         setFormData({
             ...formData,
             item_category: "Berwujud",
-            how_to_earn: "Pembelian",
-            item_condition: "Baik",
             total: 1,
         });
         const isErrorsInput = checkAllInputIsCorrect(inputErrors);
@@ -83,11 +101,31 @@ const TangibleForm = (props) => {
 
     return (
         <>
-            {isLoading && <Spinner />}
+            {isLoading && (
+                <Spinner
+                    bgVariant="bg-half-opacity"
+                    message=" Sedang memuat, mohon tunggu ..."
+                />
+            )}
             {isSuccess && (
                 <Toast urlRedirect="/asset" message={res.flash.message} />
             )}
             <form>
+                {mode === "create" && (
+                    <Checkbox
+                        name="is_internal_code"
+                        onChange={handleChecked}
+                        label="Centang jika barang memiliki type, merk, tahun pengadaan yang sama dan telah didaftarkan"
+                    />
+                )}
+                {isInternalCode && (
+                    <ReactSelect
+                        datas={[...assetData]}
+                        label="Pilih Barang yang Sama"
+                        onChange={handleChange}
+                        name="internal_code"
+                    />
+                )}
                 <Column>
                     <WrapperItemsColumn>
                         <InputWithLabel
@@ -117,11 +155,13 @@ const TangibleForm = (props) => {
                             onChange={handleChange}
                             value={formData?.certification_number || ""}
                         />
-                        <SelectWithLabel
+                        <ReactSelect
                             datas={howToEarn}
                             label="Cara Perolehan"
-                            name="how_to_earn"
                             onChange={handleChange}
+                            name="how_to_earn"
+                            isMulti={false}
+                            defaultValue={formData?.how_to_earn || ""}
                         />
                         <InputWithLabel
                             type="text"
@@ -191,19 +231,23 @@ const TangibleForm = (props) => {
                             value={formData?.item_year || ""}
                             isCorrect={inputErrors.item_year}
                         />
-                        <SelectWithLabel
+
+                        <ReactSelect
                             datas={itemCondition}
-                            name="item_condition"
                             label="Kondisi Barang"
                             onChange={handleChange}
+                            name="item_condition"
+                            isMulti={false}
+                            defaultValue={formData?.item_condition || ""}
                         />
+
                         <InputWithLabel
                             type="number"
                             name="price"
                             placeholder="Harga barang saat diperoleh"
                             label="Harga"
                             onChange={handleChange}
-                            value={formData?.price || ""}
+                            value={formData?.price}
                             isCorrect={inputErrors.price}
                         />
                         <InputWithLabel
@@ -219,6 +263,7 @@ const TangibleForm = (props) => {
                             label="Pengguna"
                             onChange={handleChange}
                             name="user"
+                            isMulti={false}
                             defaultValue={formData?.user || ""}
                         />
                     </WrapperItemsColumn>
@@ -253,6 +298,7 @@ const TangibleForm = (props) => {
                     action={handleSubmit}
                     buttonVariant="button-primary-lg"
                     disabled={!isSubmit}
+                    buttonType="submit"
                 >
                     Submit
                 </ButtonCommon>

@@ -62,10 +62,10 @@ const Navbar = () => {
                         </Link>
                     </li>
                     <li className="nav-item">
-                        <a href="/bast" className="nav-link">
+                        <Link href="/distributions" className="nav-link">
                             <DocumentTextIcon className="icon" />
                             BAST
-                        </a>
+                        </Link>
                     </li>
                     <li className="nav-item">
                         <Link href="/employees" className="nav-link">
