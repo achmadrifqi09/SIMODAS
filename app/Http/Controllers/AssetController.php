@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Imports\AssetsImport;
 use App\Models\Asset;
 use App\Models\Employee;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File as FacadesFile;
@@ -153,6 +154,10 @@ class AssetController extends Controller
     public function destroy($id)
     {
         $asset = Asset::find($id);
+
+        if( $asset->physical_evidence ){
+            FacadesFile::delete(public_path($asset->physical_evidence));
+        }
         $asset->delete();
        
         return redirect()->back()->with('message', 'Berhasil menghapus data');
@@ -201,8 +206,6 @@ class AssetController extends Controller
         }
     }
 
-
-
     public function show($id) {
         $asset = Asset::where('id', $id);
         return Inertia::render('Asset/DetailedAsset', ['assetData' => $asset->get()]);
@@ -218,15 +221,19 @@ class AssetController extends Controller
     }
 
     public function compressImage($image){
-        $fileName = time() . null . $image->getClientOriginalName();
-        $image = CompressImage::make($image);
-        $image->resize(350, null, function ($constraint) {
-            $constraint->aspectRatio();
-        });
-
-        $image->save(\public_path('upload-image/' . $fileName));
-
-        return 'upload-image/' . $fileName;
+        try{  
+            $fileName = time() . null . $image->getClientOriginalName();
+            $image = CompressImage::make($image);
+            $image->resize(350, null, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+    
+            $image->save(\public_path('upload-image/' . $fileName));
+    
+            return 'upload-image/' . $fileName;
+        }catch(Exception $e){
+           return redirect()->back()->with('message', 'Gagal mengkompres foto');
+        }
     }
 
     public function generateInternalCode() {

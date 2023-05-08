@@ -61,14 +61,13 @@ const Asset = (props) => {
     });
 
     const handleChangeFormImport = (event) => {
-        const { name, value } = event.target;
+        const { name, value, type } = event.target;
 
         setData({
             ...data,
             [name]: type === "file" ? event.target.files[0] : value,
         });
     };
-    
 
     const handleChangeExport = (event) => {
         const { name, value } = event.target;

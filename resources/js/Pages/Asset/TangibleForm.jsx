@@ -5,7 +5,7 @@ import {
     TextareaWithLabel,
     InputFile,
     Checkbox,
-    ReactSelect
+    ReactSelect,
 } from "../../Components/Input/index";
 import { Column, WrapperItemsColumn } from "../../Layouts/index";
 import { Inertia } from "@inertiajs/inertia";
@@ -59,7 +59,6 @@ const TangibleForm = (props) => {
               Inertia.post(`/asset/${datas.id}/update`, formData);
         setIsLoading(true);
     };
-
 
     const handleChange = (event) => {
         const { name, value, type } = event.target;
